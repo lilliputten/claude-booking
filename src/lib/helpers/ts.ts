@@ -1,6 +1,9 @@
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
+export type TAwaitedParams<T = void> = Promise<T>;
+export type TAwaitedProps<T = void> = { params: TAwaitedParams<T> };
+
 export type ExtendNullWithUndefined<T> = {
   [K in keyof T]: null extends T[K] ? T[K] | undefined : T[K];
 };

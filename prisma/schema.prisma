@@ -23,6 +23,7 @@ model DiningHall {
   tableColorAvailable String? // Optional default color for available tables
   tableColorOccupied  String? // Optional color for occupied tables
   tableColorReserved  String? // Optional color for reserved tables
+  tableDefaultColor   String // Default table color
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   tables              Table[]

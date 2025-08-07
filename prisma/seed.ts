@@ -1,6 +1,13 @@
 /* eslint-disable no-console */
 
-import { DiningHall, PrismaClient, TableStatus } from '../src/generated/prisma';
+/**
+ * It'll be work only for empty database.
+ * `DROP SCHEMA public CASCADE;` sql command to drop all databases.
+ *
+ * TODO: Add a command-line option to clear the databses.
+ */
+
+import { DiningHall, PrismaClient, Table, TableStatus } from '../src/generated/prisma';
 
 const prisma = new PrismaClient();
 
@@ -8,29 +15,21 @@ const now = new Date();
 
 const initialDiningHall: DiningHall = {
   id: 1,
-  name: 'Main Hall',
+  name: 'Default Hall',
   width: 800,
   height: 600,
   backgroundColor: '#f5f5f5',
   tableColorAvailable: '#4caf50',
   tableColorOccupied: '#f44336',
   tableColorReserved: '#ff9800',
+  tableDefaultColor: '#3434f0',
   createdAt: now,
   updatedAt: now,
 };
 
-const initialTables: Array<{
-  tableNumber: number;
-  seats: number;
-  status: TableStatus;
-  x: number;
-  y: number;
-  width: number | null;
-  height: number | null;
-  rotation: number | null;
-  color: string | null;
-}> = [
+const initialTables: Array<Omit<Table, 'id'>> = [
   {
+    diningHallId: 1,
     tableNumber: 1,
     seats: 4,
     status: TableStatus.AVAILABLE,
@@ -38,21 +37,23 @@ const initialTables: Array<{
     y: 150,
     width: 80,
     height: 80,
-    rotation: 0,
-    color: '#4caf50', // green for available
+    rotation: 30,
+    color: '#3434f0',
   },
   {
+    diningHallId: 1,
     tableNumber: 2,
-    seats: 2,
+    seats: 4,
     status: TableStatus.AVAILABLE,
     x: 250,
     y: 150,
-    width: 50,
-    height: 50,
+    width: 80,
+    height: 80,
     rotation: 0,
-    color: '#4caf50', // green for available
+    color: '#9d17b2',
   },
   {
+    diningHallId: 1,
     tableNumber: 3,
     seats: 6,
     status: TableStatus.RESERVED,
@@ -61,9 +62,10 @@ const initialTables: Array<{
     width: 120,
     height: 80,
     rotation: 0,
-    color: '#ff9800', // orange for reserved
+    color: '#008b98',
   },
   {
+    diningHallId: 1,
     tableNumber: 4,
     seats: 4,
     status: TableStatus.OCCUPIED,
@@ -72,7 +74,7 @@ const initialTables: Array<{
     width: 80,
     height: 80,
     rotation: 15,
-    color: '#f44336', // red for occupied
+    color: '#0a4d98',
   },
 ];
 
@@ -90,15 +92,7 @@ async function main() {
   console.log('Database is empty. Proceeding with seed operation...');
 
   const diningHall = await prisma.diningHall.create({
-    data: {
-      name: initialDiningHall.name,
-      width: initialDiningHall.width,
-      height: initialDiningHall.height,
-      backgroundColor: initialDiningHall.backgroundColor,
-      tableColorAvailable: initialDiningHall.tableColorAvailable,
-      tableColorOccupied: initialDiningHall.tableColorOccupied,
-      tableColorReserved: initialDiningHall.tableColorReserved,
-    },
+    data: initialDiningHall,
   });
 
   for (const table of initialTables) {
