@@ -57,7 +57,8 @@ model Reservation {
   guestName       String
   phone           String?
   partySize       Int
-  reservationDate DateTime
+  startTime       DateTime // start time
+  endTime         DateTime // ADD this field for end time
   specialRequests String?
   status          ReservationStatus @default(ACTIVE)
   table           Table             @relation(fields: [tableId], references: [id])
