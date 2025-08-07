@@ -1,27 +1,37 @@
 {
   "name": "claude-booking",
-  "version": "0.1.0",
-  "private": true,
+  "description": "Simple demo ai-generated application for restaurant booking ",
+  "keywords": [],
+  "author": "lilliputten@gmail.com",
+  "license": "ISC",
+  "version": "0.0.0",
+  "timestamp": "2025.08.01 22:20:29 +0300",
+  "changed": "2025.07.15, 22:18",
+  "private": false,
+  "main": "src/app/page.tsx",
+  "dependencies": {
+    "next": "15.4.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@prisma/client": "6.13.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.6",
+    "prisma": "^6.13.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
   "scripts": {
+    "postinstall": "prisma generate && prisma db-push",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-  },
-  "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.6"
-  },
-  "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.4.6",
-    "@eslint/eslintrc": "^3"
   }
 }
