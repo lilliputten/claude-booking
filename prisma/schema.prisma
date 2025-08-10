@@ -30,21 +30,19 @@ model DiningHall {
 }
 
 model Table {
-  id             Int             @id @default(autoincrement())
-  tableNumber    Int             @unique
-  seats          Int
-  status         TableStatus     @default(AVAILABLE)
-  diningHall     DiningHall      @relation(fields: [diningHallId], references: [id])
-  diningHallId   Int
-  x              Float // X coordinate on the dining hall layout
-  y              Float // Y coordinate on the dining hall layout
-  width          Float? // Optional width of the table for rendering
-  height         Float? // Optional height of the table
-  rotation       Float? // Optional rotation angle in degrees
-  color          String? // Optional color override per table
-  reservations   Reservation[]
-  walkIns        WalkIn[]
-  diningSessions DiningSession[]
+  id           Int           @id @default(autoincrement())
+  tableNumber  Int           @unique
+  seats        Int
+  status       TableStatus   @default(AVAILABLE)
+  diningHall   DiningHall    @relation(fields: [diningHallId], references: [id])
+  diningHallId Int
+  x            Float // X coordinate on the dining hall layout
+  y            Float // Y coordinate on the dining hall layout
+  width        Float? // Optional width of the table for rendering
+  height       Float? // Optional height of the table
+  rotation     Float? // Optional rotation angle in degrees
+  color        String? // Optional color override per table
+  reservations Reservation[]
 }
 
 enum TableStatus {
@@ -62,6 +60,7 @@ model Reservation {
   endTime         DateTime // ADD this field for end time
   specialRequests String?
   status          ReservationStatus @default(ACTIVE)
+  isWalkin        Boolean           @default(false)
   table           Table             @relation(fields: [tableId], references: [id])
   tableId         Int
 }
@@ -70,24 +69,4 @@ enum ReservationStatus {
   ACTIVE
   CANCELLED
   COMPLETED
-}
-
-model WalkIn {
-  id           Int       @id @default(autoincrement())
-  guestName    String
-  phone        String?
-  partySize    Int
-  seatedAt     Table     @relation(fields: [tableId], references: [id])
-  tableId      Int
-  checkinTime  DateTime
-  checkoutTime DateTime?
-}
-
-model DiningSession {
-  id        Int       @id @default(autoincrement())
-  table     Table     @relation(fields: [tableId], references: [id])
-  tableId   Int
-  startTime DateTime
-  endTime   DateTime?
-  partySize Int
 }
